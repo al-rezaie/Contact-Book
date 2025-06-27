@@ -47,22 +47,31 @@ def addContact():
 #remove contact
 def removeContact():
     #name of the contact that needs to be deleted
-    name = input('Name: ')
-    #index of the contact in the contacts list 
-    index = 0
-    
-    #search algorithms which I will use later in the search function and call that function here
-    for i, dic in enumerate(contacts):
-        if dic['name'] == name:
-            index = i
-    #using the index to delete the contact with pop method
-    contacts.pop(index)
-    
-    print(contacts)
+    toDelete = input('Name, Email, or Phone Number: ')
+    #finding the index of the contact
+    index = search(toDelete)
+    #checking to see if there was anyone found
+    if type(index) is int:
+        contacts.pop(index)
+        return 'contact deleted successfully'
+    else:
+        return index
 
 #search
-def search():
-    print('search')
+def search(value):
+    try:
+        int(value)
+        mode = 'phoneNumber'
+    except:
+        if '@' in value:
+            mode = 'email'
+        else:
+            mode = 'name'
+        
+    for i, dic in enumerate(contacts):
+        if dic[mode] == value:
+            return i
+    return 'No contact were found'
 
 #show full list
 def show():
@@ -84,7 +93,15 @@ while True:
         case 1:
             show()
         case 2:
-            search()
+            toSearch = input('Name, Email, or Phone Number: ')
+            index = search(toSearch)
+            if type(index) is int:
+                contact = contacts[index]
+                cTable.clear_rows()
+                cTable.add_row([contact['name'], contact['phoneNumber'], contact['email']])
+                print(cTable)
+            else:
+                print(index)
         case 3:
             addContact()
         case 4:
