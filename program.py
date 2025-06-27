@@ -46,7 +46,19 @@ def addContact():
 
 #remove contact
 def removeContact():
-    print('removeContact')
+    #name of the contact that needs to be deleted
+    name = input('Name: ')
+    #index of the contact in the contacts list 
+    index = 0
+    
+    #search algorithms which I will use later in the search function and call that function here
+    for i, dic in enumerate(contacts):
+        if dic['name'] == name:
+            index = i
+    #using the index to delete the contact with pop method
+    contacts.pop(index)
+    
+    print(contacts)
 
 #search
 def search():
