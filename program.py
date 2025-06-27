@@ -8,14 +8,41 @@ from pathlib import Path
 #creating the cTtable(contact table)
 cTable = PrettyTable(['Name', 'Phone Number', 'Email'])
 #contacts variable
-contacts = []
+contacts = [
+    {
+        'name': 'mmd',
+        'phoneNumber': '12345678901',
+        'email': 'mmd@gmail.com'
+    },
+    {
+        'name': 'esi',
+        'phoneNumber': '11111111111',
+        'email': 'esi@gmail.com'
+    },
+    {
+        'name': 'sari',
+        'phoneNumber': '33333333333',
+        'email': 'sari@gmail.com'
+    },
+]
 
 #storage
 
 #user action functions
 #add contact
 def addContact():
-    print('addContact')
+    name = input('Name: ')
+    phoneNumber = input('Phone Number: ')
+    email = input('Email: ')
+    
+    newContact = {
+            'name':name,
+            'phoneNumber':phoneNumber,
+            'email':email
+        }
+    contacts.append(newContact)
+    
+    print(contacts)
 
 #remove contact
 def removeContact():
