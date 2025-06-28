@@ -41,8 +41,6 @@ def addContact():
             'email':email
         }
     contacts.append(newContact)
-    
-    print(contacts)
 
 #remove contact
 def removeContact():
@@ -71,11 +69,18 @@ def search(value):
     for i, dic in enumerate(contacts):
         if dic[mode] == value:
             return i
-    return 'No contact were found'
+    return '\nNo contact were found'
 
 #show full list
-def show():
-    print('show')
+def show(items):
+    cTable.clear_rows()
+    if type(items) == list:
+        for _, dic in enumerate(items):
+            cTable.add_row([dic['name'], dic['phoneNumber'], dic['email']])
+    else:
+        cTable.add_row([items['name'], items['phoneNumber'], items['email']])
+            
+    print(cTable)
 
 while True:
     #initializing the program
@@ -91,21 +96,19 @@ while True:
     #check the user choice using match
     match chosenAction:
         case 1:
-            show()
+            show(contacts)
         case 2:
             toSearch = input('Name, Email, or Phone Number: ')
             index = search(toSearch)
             if type(index) is int:
                 contact = contacts[index]
-                cTable.clear_rows()
-                cTable.add_row([contact['name'], contact['phoneNumber'], contact['email']])
-                print(cTable)
+                show(contact)
             else:
                 print(index)
         case 3:
             addContact()
         case 4:
-            removeContact()
+            print(removeContact())
         case 5:
             break
         case _:
