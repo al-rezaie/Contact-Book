@@ -31,56 +31,69 @@ contacts = [
 #user action functions
 #add contact
 def addContact():
-    name = input('Name: ')
-    phoneNumber = input('Phone Number: ')
-    email = input('Email: ')
-    
-    newContact = {
-            'name':name,
-            'phoneNumber':phoneNumber,
-            'email':email
-        }
-    contacts.append(newContact)
+    try:
+        name = input('Name: ')
+        phoneNumber = input('Phone Number: ')
+        email = input('Email: ')
+        
+        newContact = {
+                'name':name,
+                'phoneNumber':phoneNumber,
+                'email':email
+            }
+        contacts.append(newContact)
+        return '\nContact was added successfully'
+    except:
+        return '\nSomthing went wrong'
 
 #remove contact
 def removeContact():
-    #name of the contact that needs to be deleted
-    toDelete = input('Name, Email, or Phone Number: ')
-    #finding the index of the contact
-    index = search(toDelete)
-    #checking to see if there was anyone found
-    if type(index) is int:
-        contacts.pop(index)
-        return 'contact deleted successfully'
-    else:
-        return index
+    try:
+        #name of the contact that needs to be deleted
+        toDelete = input('Name, Email, or Phone Number: ')
+        #finding the index of the contact
+        index = search(toDelete)
+        #checking to see if there was anyone found
+        if type(index) is int:
+            contacts.pop(index)
+            return '\nContact deleted successfully'
+        else:
+            return index
+    except:
+        return '\nSomthing went wrong'
 
 #search
 def search(value):
     try:
-        int(value)
-        mode = 'phoneNumber'
+        try:
+            int(value)
+            mode = 'phoneNumber'
+        except:
+            if '@' in value:
+                mode = 'email'
+            else:
+                mode = 'name'
+            
+        for i, dic in enumerate(contacts):
+            if dic[mode] == value:
+                return i
+        return '\nNo contact were found'
     except:
-        if '@' in value:
-            mode = 'email'
-        else:
-            mode = 'name'
-        
-    for i, dic in enumerate(contacts):
-        if dic[mode] == value:
-            return i
-    return '\nNo contact were found'
+        print('\nSomething went wrong')
 
 #show full list
 def show(items):
-    cTable.clear_rows()
-    if type(items) == list:
-        for _, dic in enumerate(items):
-            cTable.add_row([dic['name'], dic['phoneNumber'], dic['email']])
-    else:
-        cTable.add_row([items['name'], items['phoneNumber'], items['email']])
-            
-    print(cTable)
+    try:
+        cTable.clear_rows()
+        if type(items) == list:
+            for _, dic in enumerate(items):
+                cTable.add_row([dic['name'], dic['phoneNumber'], dic['email']])
+        else:
+            cTable.add_row([items['name'], items['phoneNumber'], items['email']])
+                
+        print(cTable)
+    except:
+        print('\nSomething went wrong')
 
 while True:
     #initializing the program
@@ -106,7 +119,7 @@ while True:
             else:
                 print(index)
         case 3:
-            addContact()
+            print(addContact())
         case 4:
             print(removeContact())
         case 5:
