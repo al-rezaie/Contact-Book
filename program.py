@@ -9,26 +9,11 @@ import re
 
 #creating the cTtable(contact table)
 cTable = PrettyTable(['Name', 'Phone Number', 'Email'])
-#contacts variable
-contacts = [
-    {
-        'name': 'mmd',
-        'phoneNumber': '12345678901',
-        'email': 'mmd@gmail.com'
-    },
-    {
-        'name': 'esi',
-        'phoneNumber': '11111111111',
-        'email': 'esi@gmail.com'
-    },
-    {
-        'name': 'sari',
-        'phoneNumber': '33333333333',
-        'email': 'sari@gmail.com'
-    },
-]
-
-#storage
+#creating the json file
+jsonFile = Path('./dataBase.json')
+jsonFile.touch(exist_ok=True)
+#contacts list
+contacts = []
 
 #user action functions
 #add contact
@@ -123,6 +108,11 @@ def show(items):
     except:
         print('\nSomething went wrong')
 
+#loading user saved data before initializing the program
+content = jsonFile.read_text().strip()
+if content:
+    contacts = json.loads(content)
+
 while True:
     #initializing the program
     print('''
@@ -156,7 +146,16 @@ while True:
         case 4:
             print(removeContact())
         case 5:
-            break
+            #saving the user data before closing the program
+            try:
+                jsonFile.write_text(json.dumps(contacts))
+                break
+            except:
+                confirm = input('\nThere was a problem in saving your data. Are you sure you want to exit(y,n): ').strip().lower()
+                if confirm == 'y':
+                    break
+                else:
+                    continue
         case _:
             print('Invalid input')
             continue
